@@ -128,7 +128,7 @@ def get_bilby_prior_dict(pta):
           priors[param.name] = LinearExp( \
               # param._pmin
               param.prior._defaults['pmin'], param.prior._defaults['pmax'], \
-              param.name)
+              name=param.name)
       else:
         if param.name=='jup_orb_elements' and param.type=='uniform':
           for ii in range(param.size):
