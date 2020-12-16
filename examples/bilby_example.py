@@ -22,7 +22,8 @@ for p, t in zip(parfiles, timfiles):
 ##### parameters and priors #####
 
 # Uniform prior on EFAC
-efac = parameter.Uniform(0.1, 5.0)
+# efac = parameter.Uniform(0.1, 5.0)
+efac = parameter.LinearExp(0.1, 5.0)
 
 # white noise
 ef = white_signals.MeasurementNoise(efac=efac)
@@ -37,7 +38,9 @@ model = ef + tm
 pta = signal_base.PTA([model(psrs[0])])
 
 priors = bilby_warp.get_bilby_prior_dict(pta)
+print(priors)
 parameters = dict.fromkeys(priors.keys())
 likelihood = bilby_warp.PTABilbyLikelihood(pta,parameters)
 label = 'test_bilby'
-bilby.run_sampler(likelihood=likelihood, priors=priors, outdir='out/', label=label, sampler='dynesty', resume=True, nwalkers=500)
+# bilby.run_sampler(likelihood=likelihood, priors=priors, outdir='out/', label=label, sampler='dynesty', resume=False, nwalkers=500)
+bilby.run_sampler(likelihood=likelihood, priors=priors, outdir='out/', label=label, sampler='nestle')
